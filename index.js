@@ -8,10 +8,10 @@ const server = http.createServer(app);
 const io = socketIo(server);
 const userService = new UsersService();
 
-app.use(express.static(_dirname + '/public'));
+app.use(express.static(__dirname + '/public'));
 
 app.get('/', function(req, res) {
-	res.sendFile(_dirname + '/index.html');
+	res.sendFile(__dirname + '/index.html');
 });
 
 io.on('connection', function(socket) {
@@ -28,10 +28,10 @@ io.on('connection', function(socket) {
 		});
 	});
 	//sending the massage by user
-	socket.on('massage', function(massage) {
+	socket.on('message', function(message) {
 		const {name} = userService.getUserById(socket.id);
-		socket.broadcast.emit('massage', {
-			text: massage.text,
+		socket.broadcast.emit('message', {
+			text: message.text,
 			from: name
 		});
 	});
